@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block sidebar_additional_content %}
+    <a href="{% url 'logout' %}" class="nav__link nav__logout">
+        <i class='bx bx-log-out nav__icon' ></i>
+        <span class="nav__name">Log Out</span>
+    </a>
+{% endblock %}
+
+{% block sidebar_edit_profile_content %}
+<a href="{% url  'edit_profile_form' staff_number=request.user.staff_number %}" class="nav__link nav__icon">
+        <i class='bx bx-user nav__icon' ></i>
+        <span class="nav__name">Edit Profile</span>
+    </a>
+{% endblock %}
+
+{% block content %}
+    <h1>Welcome to the Management Dashboard</h1>
+    
+    <table id="myTable" class='display' style="width:100%">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>First Name</th>
+                <th>Middle Name</th>
+                <th>Last Name</th>
+                <th>Job Title</th>
+                <th>Department</th>
+                <th>Office Location</th>
+                <th>Room Number</th>
+                <th>PLC Number</th>
+                <th>Personal Number</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff in staffs %}
+                <tr>
+                    <td>{{ staff.title }}</td>
+                    <td>{{ staff.first_name }}</td>
+                    <td>{{ staff.middle_name }}</td>
+                    <td>{{ staff.last_name }}</td>
+                    <td>{{ staff.job_title }}</td>
+                    <td>{{ staff.department }}</td>
+                    <td>{{ staff.office_location }}</td>
+                    <td>{{ staff.room_number }}</td>
+                    <td>{{ staff.plc_number }}</td>
+                    <td>{{ staff.personal_number }}</td>
+                    <td>{{ staff.email }}</td>
+                    <td>{{ staff.status }}</td>
+                     <td>
+  <a href="{% url 'edit_user' staff_number=staff.staff_number %}"><i class='bx bx-edit-alt'></i></a>
+</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<script>
+        // Check if there are Django messages and display corresponding Notyf notifications
+        {% if messages %}
+            const notyf = new Notyf({
+                position:{
+                    x:'center', 
+                    y:"top",
+                },
+                duration: 2000,
+                ripple: true,
+            });
+
+            {% for message in messages %}
+                const messageTag = "{{ message.tags }}";
+                const messageText = "{{ message }}";
+
+                if (messageTag === "success") {
+                    notyf.success(messageText);
+                } else if (messageTag === "error") {
+                    notyf.error(messageText);
+                }
+            {% endfor %}
+        {% endif %}
+    </script>
+    {% endblock %}

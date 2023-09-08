@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+{%load static%}
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+        <!--CSS-->
+        <link rel="stylesheet" href="{% static 'assets/css/styles.css'%}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+ <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+        <title>GridContacts</title>
+       
+    </head>
+    <body>
+        <!--Header-->
+        <header class="header">
+            <div class="header__container">
+                <a href="{% url 'staff_details' %}" class="header__logo">GridContacts</a>
+                 {% if user.is_staff %}
+                    <h3>{{user.first_name}} {{user.last_name}}</h3>
+                </a>
+            {% elif user.is_management %}
+                    <h3>{{user.first_name}} {{user.last_name}}</h3> 
+            {% else %}
+               <a href="{% url 'login' %}" class="btn">Login</a>
+            {% endif %} 
+                
+                 
+                <div class="header__toggle">
+                    <i class='bx bx-menu' id="header-toggle"></i>
+                </div>
+            </div>
+        </header>
+
+                <!--Navigation-->
+        <div class="nav" id="navbar">
+            <nav class="nav__container">
+                <div>
+                        {% if user.is_staff %}
+                <a href="{% url 'staff' %}" class="nav__link nav__logo">
+                    <i class='bx bxs-book-content nav__icon'></i>
+                    <span class="nav__logo-name">GridContacts</span>
+                </a>
+            {% elif user.is_management %}
+                <a href="{% url 'management' %}" class="nav__link nav__logo">
+                    <i class='bx bxs-book-content nav__icon'></i>
+                    <span class="nav__logo-name">GridContacts</span>
+                </a>
+            {% else %}
+                <a href="{% url 'staff_details' %}" class="nav__link nav__logo">
+                    <i class='bx bxs-book-content nav__icon'></i>
+                    <span class="nav__logo-name">GridContacts</span>
+                </a>
+            {% endif %}
+    
+
+                    <div class="nav__list">
+                        <div class="nav__items">
+                            <h3 class="nav__subtitle"></h3>
+                        {% if user.is_staff %}
+                 <a href="{% url 'staff' %}" class="nav__link active">
+                <i class='bx bx-home nav__icon' ></i>
+                    <span class="nav__name">Home</span>
+                 </a>
+            {% elif user.is_management %}
+                 <a href="{% url 'management' %}" class="nav__link active">
+                <i class='bx bx-home nav__icon' ></i>
+                    <span class="nav__name">Home</span>
+                 </a>
+            {% else %}
+                 <a href="{% url 'staff_details' %}" class="nav__link active">
+                <i class='bx bx-home nav__icon' ></i>
+                    <span class="nav__name">Home</span>
+                 </a>
+            {% endif %} 
+
+              
+                            {% block sidebar_edit_profile_content %} {% endblock %}
+                            <div class="nav__dropdown">
+                                <a href="#" class="nav__link">
+                                    <i class='bx bxs-wrench nav__icon' ></i>
+                                    <span class="nav__name">Service Centers</span>
+                                    <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                                </a>
+
+                                <div class="nav__dropdown-collapse">
+                                    <div class="nav__dropdown-content">
+                                        <a href="{% url 'infirmary' %}" class="nav__dropdown-item">Infirmary</a>
+                                        <a href="{% url 'mis' %}" class="nav__dropdown-item">MIS</a>
+                                        <a href="{% url 'systemcomm' %}" class="nav__dropdown-item">System Communications</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="nav__items">
+                            <h3 class="nav__subtitle">Menu</h3>
+    
+                            <div class="nav__dropdown">
+                                <a href="#" class="nav__link">
+                                    <i class='bx bx-list-ul nav__icon' ></i>
+                                    <span class="nav__name">Other Groupings</span>
+                                    <i class='bx bx-chevron-down nav__icon nav__dropdown-icon'></i>
+                                </a>
+
+                                <div class="nav__dropdown-collapse">
+                                    <div class="nav__dropdown-content">
+                                        <a href="{% url 'address_list' %}" class="nav__dropdown-item">Addresses</a>
+                                        <a href="{% url 'stakeholder_list'%}" class="nav__dropdown-item">Stakeholders</a>
+                                        <a href="{% url 'substation_list' %}" class="nav__dropdown-item">Substations</a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                                            {% block additional_content %}
+                                            <a href="#" class="nav__link" id="helpButton">
+                                                <i class='bx bx-help-circle nav__icon'></i>
+                                                <span class="nav__name">Help</span>
+                                             </a>
+                                         {% endblock %}
+
+                        {% block popup_content %}
+                            <!-- Hidden Popup Container -->
+                            <div class="popup-container" id="popupContainer">
+                                <div class="popup-content">
+                                    <h2>Need Help?</h2>
+                                    <p>Contact the service desk or Mangement of Information Systems.</p>
+                                    <button id="closeButton">Close</button>
+                                </div>
+                            </div>
+                        {% endblock %}
+
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                {% if user.is_authenticated %}
+    {% block sidebar_additional_content %}
+    <a href="{% url 'logout' %}" class="nav__link nav__logout">
+        <i class="bx bx-log-out nav__icon"></i>
+        <span class="nav__name">Log Out</span>
+    </a>
+    {% endblock %}
+    {% endif %}
+            </nav>
+        </div>
+
+        <!--Main Content-->
+         
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    
+        <script src="{% static 'assets/js/main.js'%}"></script>
+        <script>
+$(document).ready(function() {
+  $('#myTable').DataTable({
+  });
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    </body>
+</html>

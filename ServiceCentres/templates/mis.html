@@ -1,0 +1,26 @@
+{% extends 'base.html' %} {% block sidebar_additional_content %}
+<a href="{% url 'logout' %}" class="nav__link nav__logout">
+  <i class="bx bx-log-out nav__icon"></i>
+  <span class="nav__name">Log Out</span>
+</a>
+{% endblock %} {% block content %}
+<h2>MIS</h2>
+<table id="myTable" class="display" style="width: 100%">
+  <thead>
+    <tr>
+      <th>Service</th>
+      <th>Service Description</th>
+      <th>PLC</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for mis in mis %}
+    <tr>
+      <td>{{ mis.service}}</td>
+      <td>{{ mis.service_description }}</td>
+      <td>{{ mis.plc_number }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,53 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css'%}">
+    <link rel="stylesheet" href="{% static 'assets/css/login.css'%}">
+     <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <title>Login</title>
+</head>
+<body>
+    <div class="login-box">
+        <h2 class="animate__animated animate__bounceInDown">Sign in to your account</h2>
+        <form id="login-form" method="post" action="">
+            {% csrf_token %}
+                <label for="email">Email:</label>
+                <input type="email" name="email" required>
+                <label for="password">Password:</label>
+                <input type="password" name="password" required>
+            <button type="submit">Login</button>
+
+        </form>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+    <script>
+        // Check if there are Django messages and display corresponding Notyf notifications
+        {% if messages %}
+            const notyf = new Notyf({
+                position:{
+                    x:'center', 
+                    y:"top",
+                },
+                duration: 2000,
+                ripple: true,
+            });
+
+            {% for message in messages %}
+                const messageTag = "{{ message.tags }}";
+                const messageText = "{{ message }}";
+
+                if (messageTag === "success") {
+                    notyf.success(messageText);
+                } else if (messageTag === "error") {
+                    notyf.error(messageText);
+                }
+            {% endfor %}
+        {% endif %}
+    </script>
+</body>
+</html>

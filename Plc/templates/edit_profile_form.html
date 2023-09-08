@@ -1,0 +1,23 @@
+
+
+{% extends 'base.html' %}
+{% load static %}
+{% block sidebar_additional_content %}
+    <a href="{% url 'logout' %}" class="nav__link nav__logout">
+        <i class='bx bx-log-out nav__icon'></i>
+        <span class="nav__name">Log Out</span>
+    </a>
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <h1>Edit Profile</h1>
+    <form method="post" action="{% url 'edit_profile_form' staff_number=edit_user.staff_number %}">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Save Changes</button>
+    </form>
+{% endblock %}
+

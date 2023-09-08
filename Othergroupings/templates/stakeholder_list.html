@@ -1,0 +1,28 @@
+{% extends 'base.html' %} {% block sidebar_additional_content %}
+<a href="{% url 'logout' %}" class="nav__link nav__logout">
+  <i class="bx bx-log-out nav__icon"></i>
+  <span class="nav__name">Log Out</span>
+</a>
+{% endblock %} {% block content %}
+<h2>Stakeholders</h2>
+<table id="myTable" class="display" style="width: 100%">
+  <thead>
+    <tr>
+      <th>Stakeholder</th>
+      <th>Short Name</th>
+      <th>External Lines</th>
+      <th>Fax</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for stakeholder in stakeholders %}
+    <tr>
+      <td>{{ stakeholder.stakeholder }}</td>
+      <td>{{ stakeholder.short_name }}</td>
+      <td>{{ stakeholder.external_lines }}</td>
+      <td>{{ stakeholder.fax }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

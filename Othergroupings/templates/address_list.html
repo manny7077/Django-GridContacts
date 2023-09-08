@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block sidebar_additional_content %}
+<a href="{% url 'logout' %}" class="nav__link nav__logout">
+  <i class="bx bx-log-out nav__icon"></i>
+  <span class="nav__name">Log Out</span>
+</a>
+{% endblock %} {% block content %}
+<h2>Addresses</h2>
+<table id="myTable" class="display" style="width: 100%">
+  <thead>
+    <tr>
+      <th>Postal Address</th>
+      <th>Email Address</th>
+      <th>Telephone Number</th>
+      <th>Fax</th>
+      <th>Area</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for address in addresses %}
+    <tr>
+      <td>{{ address.postal_address }}</td>
+      <td>{{ address.email_address }}</td>
+      <td>{{ address.telephone_number }}</td>
+      <td>{{ address.fax }}</td>
+      <td>{{ address.area }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
